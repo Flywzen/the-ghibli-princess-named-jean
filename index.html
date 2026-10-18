@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>FOR JEAN ERLIKA // WAHAI PUTRI GHIBLI</title>
+  <title>FOR JEAN ERLIKA // MY GHIBLI PRINCESS</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,825 +11,8 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 
-  <style>
-    :root {
-      --bg-void: #080B11;
-      --paper-ivory: #F5F0E6;
-      --paper-warm: #E9DFC9;
-      --ink-deep: #12161F;
-      --brass: #D8B26E;
-      --brass-bright: #F4D799;
+  <link rel="stylesheet" href="./styles/main.css">
 
-      --ai-blue: #4F8EF7;
-      --ai-magenta: #FF5C8D;
-      --ai-green: #2ECC71;
-      --ai-orange: #FF7A45;
-      --ai-gold: #F5B841;
-      --ai-cyan: #25CCF7;
-
-      --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
-      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-      --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
-      --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
-
-      --font-display: 'Cinzel Decorative', serif;
-      --font-editorial: 'Cormorant Garamond', serif;
-      --font-sans: 'Plus Jakarta Sans', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-      background: var(--bg-void);
-      color: var(--paper-ivory);
-      font-family: var(--font-editorial);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* Virtual scroll track to enable natural browser scrolling on mobile & desktop */
-    #scroll-proxy {
-      width: 100%;
-      height: 980vh;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      pointer-events: auto;
-    }
-
-    #viewport {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100dvh;
-      overflow: hidden;
-      z-index: 2;
-      pointer-events: none;
-      perspective: 1150px;
-      perspective-origin: 50% 50%;
-    }
-
-    #atmo-canvas,
-    #particle-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
-      pointer-events: none;
-    }
-    #atmo-canvas { z-index: 1; }
-    #particle-canvas { z-index: 28; }
-
-    .dkv-rulers {
-      position: fixed;
-      inset: 0;
-      z-index: 30;
-      pointer-events: none;
-      opacity: 0.68;
-    }
-    .ruler-top {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 16px;
-      border-bottom: 1px solid rgba(216, 178, 110, 0.22);
-      background: repeating-linear-gradient(
-        90deg,
-        rgba(216, 178, 110, 0.26) 0px,
-        rgba(216, 178, 110, 0.26) 1px,
-        transparent 1px,
-        transparent 8px
-      );
-    }
-    .ruler-left {
-      position: absolute;
-      top: 16px;
-      bottom: 0;
-      left: 0;
-      width: 16px;
-      border-right: 1px solid rgba(216, 178, 110, 0.22);
-      background: repeating-linear-gradient(
-        180deg,
-        rgba(216, 178, 110, 0.26) 0px,
-        rgba(216, 178, 110, 0.26) 1px,
-        transparent 1px,
-        transparent 8px
-      );
-    }
-
-    .hud-header {
-      position: fixed;
-      top: 20px;
-      left: 22px;
-      right: 14px;
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      pointer-events: none;
-    }
-
-    .dynamic-island {
-      pointer-events: auto;
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      padding: 7px 13px;
-      background: rgba(10, 14, 22, 0.88);
-      border: 1px solid rgba(216, 178, 110, 0.34);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.16),
-        0 10px 24px rgba(0, 0, 0, 0.45);
-      border-radius: 999px;
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: 0.1em;
-      color: var(--paper-ivory);
-      cursor: pointer;
-      will-change: transform;
-      transition:
-        transform 150ms var(--ease-out-quart),
-        border-color 220ms var(--ease-out-quart);
-    }
-    .dynamic-island:active {
-      transform: scale(0.96);
-    }
-
-    .hud-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--ai-orange);
-      box-shadow: 0 0 8px var(--ai-orange);
-      transition: background-color 300ms ease;
-    }
-
-    .eq-bars {
-      display: inline-flex;
-      align-items: flex-end;
-      gap: 2px;
-      height: 10px;
-    }
-    .eq-bars i {
-      width: 2px;
-      height: 3px;
-      background: var(--brass-bright);
-      border-radius: 1px;
-      transition: height 180ms ease;
-    }
-    .eq-bars.playing i:nth-child(1) { animation: eqBounce 0.6s infinite ease-in-out alternate; }
-    .eq-bars.playing i:nth-child(2) { animation: eqBounce 0.45s infinite ease-in-out alternate 0.15s; }
-    .eq-bars.playing i:nth-child(3) { animation: eqBounce 0.55s infinite ease-in-out alternate 0.3s; }
-    @keyframes eqBounce {
-      0% { height: 3px; }
-      100% { height: 10px; }
-    }
-
-    .hud-controls {
-      pointer-events: auto;
-      display: flex;
-      gap: 6px;
-    }
-
-    .hud-btn {
-      height: 32px;
-      padding: 0 11px;
-      background: rgba(10, 14, 22, 0.88);
-      border: 1px solid rgba(216, 178, 110, 0.34);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
-      border-radius: 999px;
-      color: var(--paper-ivory);
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      cursor: pointer;
-      will-change: transform;
-      transition:
-        transform 140ms var(--ease-out-quart),
-        background-color 200ms var(--ease-out-quart),
-        border-color 200ms var(--ease-out-quart),
-        color 200ms var(--ease-out-quart);
-    }
-    .hud-btn:hover {
-      border-color: rgba(216, 178, 110, 0.75);
-      background: rgba(22, 29, 44, 0.94);
-    }
-    .hud-btn:active {
-      transform: scale(0.95);
-    }
-    .hud-btn.active {
-      background: rgba(79, 142, 247, 0.24);
-      border-color: var(--ai-blue);
-      color: #A7CBFF;
-    }
-    .hud-btn svg {
-      width: 12px;
-      height: 12px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.7;
-    }
-
-    .artboard-rail {
-      position: fixed;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 45;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      pointer-events: auto;
-      padding: 8px 4px;
-      background: rgba(10, 14, 22, 0.72);
-      border: 1px solid rgba(216, 178, 110, 0.24);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      border-radius: 999px;
-    }
-    .ab-pip {
-      width: 22px;
-      height: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-mono);
-      font-size: 8.5px;
-      color: rgba(244, 239, 230, 0.45);
-      border: 1px solid transparent;
-      border-radius: 50%;
-      cursor: pointer;
-      transition:
-        transform 150ms var(--ease-out-quart),
-        color 220ms var(--ease-out-quart),
-        border-color 220ms var(--ease-out-quart),
-        background-color 220ms var(--ease-out-quart);
-    }
-    .ab-pip:active {
-      transform: scale(0.9);
-    }
-    .ab-pip.active {
-      color: var(--brass-bright);
-      border-color: var(--brass);
-      background: rgba(216, 178, 110, 0.18);
-      transform: scale(1.08);
-    }
-
-    #world-rig {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      z-index: 10;
-      will-change: transform;
-      transition: transform 820ms var(--ease-out-expo);
-    }
-
-    body.exploded-mode #world-rig {
-      transform: rotateX(15deg) rotateY(-22deg) scale3d(0.82, 0.82, 0.82) !important;
-    }
-
-    #camera-track {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      will-change: transform;
-    }
-
-    .artboard-station {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-      will-change: transform, opacity;
-    }
-
-    .artboard-canvas {
-      position: relative;
-      width: min(89vw, 418px);
-      height: min(79dvh, 654px);
-      transform-style: preserve-3d;
-      pointer-events: auto;
-    }
-
-    .ai-layer {
-      position: absolute;
-      inset: 0;
-      transform-style: preserve-3d;
-      will-change: transform, opacity;
-      pointer-events: none;
-    }
-
-    .ai-layer::before {
-      content: attr(data-layer-name);
-      position: absolute;
-      top: -19px;
-      left: 0;
-      padding: 2px 6px;
-      font-family: var(--font-mono);
-      font-size: 8.2px;
-      letter-spacing: 0.08em;
-      color: #fff;
-      background: var(--layer-color, var(--ai-blue));
-      border-radius: 4px 4px 0 0;
-      opacity: 0;
-      transform: translateY(6px) scale(0.95);
-      transition:
-        opacity 360ms var(--ease-out-expo),
-        transform 360ms var(--ease-out-expo);
-      white-space: nowrap;
-      z-index: 40;
-    }
-
-    .ai-layer::after {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      border: 1.5px solid var(--layer-color, var(--ai-blue));
-      opacity: 0;
-      transform: scale(0.985);
-      transition:
-        opacity 360ms var(--ease-out-expo),
-        transform 360ms var(--ease-out-expo);
-      pointer-events: none;
-      background:
-        linear-gradient(var(--layer-color, var(--ai-blue)) 0 0) top left / 6px 6px no-repeat,
-        linear-gradient(var(--layer-color, var(--ai-blue)) 0 0) top right / 6px 6px no-repeat,
-        linear-gradient(var(--layer-color, var(--ai-blue)) 0 0) bottom left / 6px 6px no-repeat,
-        linear-gradient(var(--layer-color, var(--ai-blue)) 0 0) bottom right / 6px 6px no-repeat;
-    }
-
-    body.exploded-mode .ai-layer::before,
-    body.exploded-mode .ai-layer::after {
-      opacity: 0.95;
-      transform: translateY(0) scale(1);
-    }
-
-    .layer-backing {
-      background: linear-gradient(165deg, rgba(20, 26, 38, 0.94), rgba(10, 13, 20, 0.98));
-      border: 1px solid rgba(216, 178, 110, 0.38);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.16),
-        0 24px 48px rgba(0, 0, 0, 0.58);
-      border-radius: 20px;
-    }
-
-    .crop-marks {
-      position: absolute;
-      inset: -12px;
-      pointer-events: none;
-    }
-    .crop-marks svg {
-      width: 100%;
-      height: 100%;
-      stroke: rgba(216, 178, 110, 0.52);
-      stroke-width: 1;
-      fill: none;
-    }
-
-    .cmyk-bar {
-      position: absolute;
-      top: 12px;
-      left: 16px;
-      right: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 8px;
-      letter-spacing: 0.1em;
-      color: rgba(244, 239, 230, 0.68);
-    }
-    .cmyk-swatches {
-      display: flex;
-      gap: 3px;
-    }
-    .cmyk-swatches span {
-      width: 8px;
-      height: 8px;
-      display: inline-block;
-      border-radius: 2px;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .hero-cutout-plate {
-      position: absolute;
-      top: 36px;
-      left: 16px;
-      right: 16px;
-      height: 40.5%;
-      border-radius: 130px 130px 10px 10px;
-      overflow: hidden;
-      border: 1.5px solid rgba(216, 178, 110, 0.55);
-      background: #101726;
-    }
-    .hero-cutout-plate.rect-plate {
-      border-radius: 10px;
-    }
-    .hero-cutout-plate img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transform: scale3d(1.06, 1.06, 1);
-      transition: opacity 650ms var(--ease-out-expo), transform 850ms var(--ease-out-expo);
-    }
-
-    .secondary-stamp {
-      position: absolute;
-      right: 10px;
-      top: 29.5%;
-      width: 44%;
-      height: 19.5%;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 2px solid var(--paper-ivory);
-      background: #101726;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
-    }
-    .secondary-stamp img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .stamp-tag {
-      position: absolute;
-      bottom: 4px;
-      left: 4px;
-      background: rgba(11, 15, 23, 0.88);
-      padding: 2px 5px;
-      border-radius: 4px;
-      font-family: var(--font-mono);
-      font-size: 7px;
-      letter-spacing: 0.08em;
-      color: var(--brass-bright);
-    }
-
-    .chat-memory-chip {
-      position: absolute;
-      left: 14px;
-      top: 42px;
-      max-width: 80%;
-      background: rgba(10, 14, 22, 0.88);
-      border: 1px solid rgba(216, 178, 110, 0.48);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.14),
-        0 8px 20px rgba(0, 0, 0, 0.45);
-      border-radius: 8px;
-      padding: 5px 9px;
-      font-family: var(--font-mono);
-      font-size: 7.8px;
-      line-height: 1.4;
-      color: var(--paper-ivory);
-      letter-spacing: 0.03em;
-    }
-    .chat-memory-chip span {
-      color: var(--brass-bright);
-      display: block;
-      font-size: 7px;
-      opacity: 0.85;
-      margin-bottom: 1px;
-    }
-
-    .editorial-sheet {
-      position: absolute;
-      left: 14px;
-      right: 14px;
-      bottom: 14px;
-      background: var(--paper-ivory);
-      color: var(--ink-deep);
-      border-radius: 10px;
-      padding: 13px 15px 12px;
-      border: 1px solid rgba(20, 24, 32, 0.18);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.38);
-      pointer-events: auto;
-      background-image: radial-gradient(rgba(20,24,32,0.04) 1px, transparent 0);
-      background-size: 12px 12px;
-    }
-
-    .sheet-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(20, 24, 32, 0.14);
-      padding-bottom: 5px;
-      margin-bottom: 6px;
-      font-family: var(--font-mono);
-      font-size: 8px;
-      letter-spacing: 0.1em;
-      color: #5A4B3C;
-    }
-
-    .sheet-title {
-      font-family: var(--font-display);
-      font-size: clamp(0.96rem, 3.7vw, 1.15rem);
-      font-weight: 700;
-      line-height: 1.2;
-      letter-spacing: -0.01em;
-      color: #12161F;
-      margin-bottom: 5px;
-    }
-
-    .sheet-copy {
-      font-family: var(--font-editorial);
-      font-size: clamp(0.9rem, 3.3vw, 0.98rem);
-      line-height: 1.43;
-      color: #2B303C;
-    }
-    .sheet-copy em {
-      color: #8C3B2B;
-      font-style: italic;
-      font-weight: 600;
-    }
-
-    .wa-quote-box {
-      margin-top: 6px;
-      padding: 6px 9px;
-      background: rgba(20, 24, 32, 0.055);
-      border-left: 2.5px solid #8C3B2B;
-      border-radius: 0 5px 5px 0;
-      font-family: var(--font-editorial);
-      font-style: italic;
-      font-size: 0.84rem;
-      line-height: 1.36;
-      color: #3A2E28;
-    }
-    .wa-quote-box strong {
-      font-family: var(--font-mono);
-      font-style: normal;
-      font-size: 7.2px;
-      letter-spacing: 0.08em;
-      color: #8C3B2B;
-      display: block;
-      margin-bottom: 2px;
-    }
-
-    .sheet-action-row {
-      margin-top: 8px;
-      padding-top: 7px;
-      border-top: 1px dashed rgba(20, 24, 32, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .dkv-chip-btn {
-      padding: 6px 11px;
-      background: #141820;
-      color: var(--paper-ivory);
-      border: 1px solid #141820;
-      border-radius: 6px;
-      font-family: var(--font-mono);
-      font-size: 8.4px;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      will-change: transform;
-      transition:
-        transform 140ms var(--ease-out-quart),
-        background-color 200ms var(--ease-out-quart),
-        color 200ms var(--ease-out-quart),
-        border-color 200ms var(--ease-out-quart);
-    }
-    .dkv-chip-btn:hover {
-      background: #232A38;
-    }
-    .dkv-chip-btn:active {
-      transform: scale(0.95);
-    }
-    .dkv-chip-btn.active {
-      background: #8C3B2B;
-      border-color: #8C3B2B;
-      color: #FFF;
-    }
-    .dkv-chip-btn.gold-cta {
-      background: #8C3B2B;
-      border-color: #8C3B2B;
-      color: #FFF;
-      font-weight: 500;
-    }
-
-    .official-pass-banner {
-      display: none;
-      margin-top: 7px;
-      padding: 7px 9px;
-      background: #141820;
-      color: var(--brass-bright);
-      border: 1px solid var(--brass);
-      border-radius: 6px;
-      font-family: var(--font-mono);
-      font-size: 7.8px;
-      letter-spacing: 0.08em;
-      line-height: 1.45;
-    }
-    .official-pass-banner.revealed {
-      display: block;
-      animation: passReveal 420ms var(--ease-drawer) forwards;
-    }
-    @keyframes passReveal {
-      from { opacity: 0; transform: translateY(6px) scale(0.96); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .door-leaf-left,
-    .door-leaf-right {
-      position: absolute;
-      top: 34px;
-      bottom: 37%;
-      width: calc(50% - 16px);
-      background: linear-gradient(170deg, #1D1612, #0F0B09);
-      border: 1.5px solid var(--brass);
-      transform-style: preserve-3d;
-      will-change: transform;
-      overflow: hidden;
-    }
-    .door-leaf-left {
-      left: 16px;
-      transform-origin: left center;
-      border-radius: 110px 0 0 8px;
-    }
-    .door-leaf-right {
-      right: 16px;
-      transform-origin: right center;
-      border-radius: 0 110px 8px 0;
-    }
-
-    .astrolabe-wheel-wrap {
-      position: absolute;
-      top: 29%;
-      left: 50%;
-      width: 136px;
-      height: 136px;
-      margin-left: -68px;
-      margin-top: -68px;
-      z-index: 15;
-      pointer-events: auto;
-      cursor: pointer;
-      transition: transform 200ms var(--ease-out-quart);
-    }
-    .astrolabe-wheel-wrap:active {
-      transform: scale(0.94);
-    }
-
-    .bottom-telemetry {
-      position: fixed;
-      bottom: 12px;
-      left: 22px;
-      right: 14px;
-      z-index: 45;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      pointer-events: none;
-      font-family: var(--font-mono);
-      font-size: 8.8px;
-      letter-spacing: 0.11em;
-      color: rgba(244, 239, 230, 0.75);
-    }
-    .telemetry-pill {
-      pointer-events: auto;
-      background: rgba(10, 14, 22, 0.84);
-      border: 1px solid rgba(216, 178, 110, 0.3);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      padding: 5px 11px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .studio-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: rgba(6, 9, 15, 0.82);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition:
-        opacity 260ms var(--ease-out-expo),
-        visibility 260ms var(--ease-out-expo);
-    }
-    .studio-modal.open {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-    }
-    .studio-card {
-      width: min(94vw, 440px);
-      max-height: 86dvh;
-      overflow-y: auto;
-      background: #121722;
-      border: 1px solid var(--brass);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
-      border-radius: 20px;
-      padding: 20px;
-      color: var(--paper-ivory);
-      transform: scale(0.95) translateY(10px);
-      transition: transform 320ms var(--ease-drawer);
-      will-change: transform;
-    }
-    .studio-modal.open .studio-card {
-      transform: scale(1) translateY(0);
-    }
-    .studio-card h3 {
-      font-family: var(--font-display);
-      font-size: 1rem;
-      letter-spacing: 0.12em;
-      color: var(--brass-bright);
-      margin-bottom: 6px;
-    }
-    .studio-card p {
-      font-family: var(--font-sans);
-      font-size: 0.8rem;
-      color: rgba(244, 239, 230, 0.72);
-      line-height: 1.5;
-      margin-bottom: 14px;
-    }
-    .studio-field {
-      margin-bottom: 12px;
-    }
-    .studio-field label {
-      display: block;
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--brass);
-      margin-bottom: 5px;
-    }
-    .studio-field input[type="text"],
-    .studio-field textarea {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(216, 178, 110, 0.35);
-      border-radius: 10px;
-      padding: 9px 11px;
-      color: #fff;
-      font-family: var(--font-editorial);
-      font-size: 1rem;
-    }
-    .file-drop-btn {
-      display: block;
-      width: 100%;
-      padding: 11px;
-      border: 1px dashed var(--brass);
-      border-radius: 10px;
-      text-align: center;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      color: var(--brass-bright);
-      cursor: pointer;
-      background: rgba(216, 178, 110, 0.08);
-    }
-    .file-drop-btn input { display: none; }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, ::before, ::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-      }
-    }
-  </style>
 </head>
 <body>
 
@@ -841,9 +24,9 @@
   </div>
 
   <header class="hud-header">
-    <div class="dynamic-island" id="island-toggle" title="Klik untuk Putar/Jeda Musik Umi no Mieru Machi">
+    <div class="dynamic-island" id="island-toggle" title="Play or pause Umi no Mieru Machi">
       <span class="hud-dot" id="hud-swatch"></span>
-      <span id="hud-artboard-label">AB_00 // PUTRI_GHIBLI.AI</span>
+      <span id="hud-artboard-label">AB_00 // GHIBLI_PRINCESS.AI</span>
       <span class="eq-bars" id="eq-bars">
         <i></i><i></i><i></i>
       </span>
@@ -859,7 +42,7 @@
         <span id="explode-label">LAYERS:08</span>
       </button>
 
-      <button class="hud-btn" id="btn-audio" title="Putar Melodi Umi no Mieru Machi">
+      <button class="hud-btn" id="btn-audio" title="Play Umi no Mieru Machi">
         <svg viewBox="0 0 24 24">
           <path d="M9 18V5l12-2v13"/>
           <circle cx="6" cy="18" r="3"/>
@@ -867,17 +50,10 @@
         </svg>
         <span id="audio-label">OST:OFF</span>
       </button>
-
-      <button class="hud-btn" id="btn-studio" title="Muat File & Kustomisasi Teks">
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg>
-      </button>
     </div>
   </header>
 
-  <nav class="artboard-rail" aria-label="Navigasi Artboard">
+  <nav class="artboard-rail" aria-label="Story navigation">
     <div class="ab-pip active" data-ab="0">00</div>
     <div class="ab-pip" data-ab="1">01</div>
     <div class="ab-pip" data-ab="2">02</div>
@@ -895,6 +71,18 @@
         <!-- ARTBOARD 00 -->
         <section class="artboard-station" data-z="0" id="ab-0">
           <div class="artboard-canvas">
+            <div class="ai-layer" data-depth="-40" data-py="0.15" data-layer-name="img-ab-0" style="--layer-color: var(--ai-green);">
+              <div class="hero-cutout-plate opening-meadow">
+                <img id="img-ab-0" alt="Howl and Sophie standing together in a flowered meadow" />
+
+              </div>
+            </div>
+            <div class="ai-layer" data-depth="55" data-py="0.35" data-layer-name="L03_Meadow_Step_Inset" style="--layer-color: var(--ai-green);">
+              <div class="secondary-stamp">
+                <img id="img-ab-3b" alt="Stepping in Meadow" />
+                <span class="stamp-tag">TAKE YOUR TIME</span>
+              </div>
+            </div>
             <div class="ai-layer layer-backing" data-depth="-80" data-layer-name="L01_Archival_Plate [PWK23_x_IF]" style="--layer-color: var(--ai-blue);">
               <div class="crop-marks">
                 <svg viewBox="0 0 400 600" preserveAspectRatio="none">
@@ -902,7 +90,7 @@
                 </svg>
               </div>
               <div class="cmyk-bar">
-                <span>ARCHIVE // <strong class="her-name-slot">JEAN ERLIKA</strong> (PUTRI GHIBLI)</span>
+                <span>ARCHIVE // <strong >JEAN ERLIKA</strong> (GHIBLI PRINCESS)</span>
                 <div class="cmyk-swatches">
                   <span style="background:#3B78C2"></span>
                   <span style="background:#C84638"></span>
@@ -943,7 +131,7 @@
             </div>
 
             <div class="ai-layer" data-depth="55" data-py="-0.15" data-layer-name="L04_Howl_Selector_Dial" style="--layer-color: var(--ai-gold);">
-              <div class="astrolabe-wheel-wrap" id="astrolabe-trigger" title="Klik atau Scroll untuk Membuka">
+              <div class="astrolabe-wheel-wrap" id="astrolabe-trigger" title="Click or scroll to begin">
                 <svg id="howl-dial-svg" viewBox="0 0 200 200" style="width:100%;height:100%;filter:drop-shadow(0 10px 24px rgba(0,0,0,0.75));">
                   <circle cx="100" cy="100" r="90" fill="#101520" stroke="#D8B26E" stroke-width="2"/>
                   <path d="M100 100 L100 18 A82 82 0 0 1 182 100 Z" fill="#3B78C2"/>
@@ -959,24 +147,24 @@
 
             <div class="ai-layer" data-depth="90" data-split="26" data-layer-name="L05_WA_Memory_Log_00" style="--layer-color: var(--ai-green);">
               <div class="chat-memory-chip">
-                <span>16/07/26 • 13:32 -> 14:22 WIB</span>
-                "raf mau tanya dong... hah dc apaan? dress code?"
+                <span>16 JULY 2026</span>
+                “dc apaan” / “dress code”
               </div>
             </div>
 
             <div class="ai-layer" data-depth="125" data-py="0.22" data-layer-name="L06_Editorial_Typography" style="--layer-color: var(--ai-magenta);">
               <div class="editorial-sheet">
                 <div class="sheet-header">
-                  <span>ARTBOARD 00 // WAHAI PUTRI GHIBLI</span>
+                  <span>ARTBOARD 00 // THE BEGINNING</span>
                   <span>ITERA // PWK × IF</span>
                 </div>
-                <h1 class="sheet-title">Dari "Raf Mau Tanya" Sampai Jadi Orang yang Paling Kutunggu.</h1>
+                <h1 class="sheet-title">You had a question.</h1>
                 <p class="sheet-copy">
-                  Semuanya berawal dari layar laptop yang tiba-tiba biru, rumus <em>Excel</em> multi-sheet Bappenas, dan kamu yang mengira <em>DC (Discord) itu Dress Code</em>. Aku menyusun diorama Ghibli ini lapis demi lapis, karena di ujung peron nanti ada satu hal yang ingin kuresmikan denganmu.
+                  You asked about Excel. I asked if you had Discord. You thought I meant a dress code. I read those messages now and smile at how little we knew. We were talking about spreadsheets, with no idea how much else we would eventually have to say. Looking back, it feels like the first steps into a much larger world.
                 </p>
                 <div class="sheet-action-row">
-                  <span style="font-family:var(--font-mono);font-size:8px;color:#6E5A49;">KLIK DIAL / SWIPE KE ATAS</span>
-                  <button class="dkv-chip-btn" id="btn-enter-diorama">BUKA GERBANG CERITA →</button>
+                  <span style="font-family:var(--font-mono);font-size:8px;color:#6E5A49;">TAP THE DIAL / SWIPE UP</span>
+                  <button class="dkv-chip-btn" id="btn-enter-diorama">START HERE →</button>
                 </div>
               </div>
             </div>
@@ -986,9 +174,15 @@
         <!-- ARTBOARD 01 -->
         <section class="artboard-station" data-z="-1500" id="ab-1">
           <div class="artboard-canvas">
+            <div class="ai-layer" data-depth="55" data-py="0.15" data-layer-name="img-ab-1b" style="--layer-color: var(--ai-green);">
+              <div class="secondary-stamp">
+                <img id="img-ab-1b" alt="An animated figure running through a sunlit field" />
+                <span class="stamp-tag">ONE STEP AT A TIME</span>
+              </div>
+            </div>
             <div class="ai-layer layer-backing" data-depth="-90" data-layer-name="L01_Station_Baseplate" style="--layer-color: var(--ai-blue);">
               <div class="cmyk-bar">
-                <span>PLATE 01 // JAKSEL — WAY HALIM EXPRESS</span>
+                <span>PLATE 01 // AT MY OWN PACE</span>
                 <span>Z: -1500mm</span>
               </div>
             </div>
@@ -1001,7 +195,7 @@
 
             <div class="ai-layer" data-depth="0" data-py="-0.15" data-layer-name="L03_Hero_SeaTrain_Dusk" style="--layer-color: var(--ai-magenta);">
               <div class="hero-cutout-plate">
-                <img id="img-ab-1" alt="Sixth Station Dusk" />
+                <img id="img-ab-1" alt="A train crossing the water beneath a sunset sky" />
               </div>
             </div>
 
@@ -1017,24 +211,24 @@
 
             <div class="ai-layer" data-depth="85" data-py="0.1" data-layer-name="L05_WA_Memory_Log_01" style="--layer-color: var(--ai-gold);">
               <div class="chat-memory-chip">
-                <span>01/08/26 & 03/08/26 • TRANSUM LOG</span>
-                "aku lagi menggandeng tiang... km tau gasi aku kelewat 1 halte hehe"
+                <span>14 AUGUST 2026</span>
+                “Even at pace 9, you’ll still get there, Raf.”
               </div>
             </div>
 
             <div class="ai-layer" data-depth="125" data-py="0.28" data-layer-name="L06_Editorial_Copy_01" style="--layer-color: var(--ai-green);">
               <div class="editorial-sheet">
                 <div class="sheet-header">
-                  <span>ARTBOARD 01 // TJ, KRL & DAMRI 29 AGUSTUS</span>
-                  <span>STASIUN KEENAM</span>
+                  <span>ARTBOARD 01 // AT MY OWN PACE</span>
+                  <span>THE SIXTH STATION</span>
                 </div>
-                <h2 class="sheet-title">Dari Gandeng Tiang di Halte Sampai Gerbang Kuning Kost Al Husna.</h2>
+                <h2 class="sheet-title">You met me then.</h2>
                 <p class="sheet-copy">
-                  Selama kamu magang di Jakarta, aku selalu nunggu kabar kamu turun dari TJ, KRL Stasiun Bogor, atau nemenin kamu jalan kaki lewat telepon dari JPO malam-malam. Sekarang kamu nggak perlu <em>gandeng tiang lagi</em> atau takut kelewat halte karena ketiduran.
+                  You came into my life at one of my lowest points. I could explain so many things to you, yet struggle to make sense of myself. When I compared my pace to everyone else’s, you said I would still get there. I wonder if you knew how long I would keep that sentence.
                 </p>
                 <div class="sheet-action-row">
-                  <span style="font-family:var(--font-mono);font-size:8px;color:#6E5A49;" id="stamp-status">TAPCASH: SIAP DITEMANI</span>
-                  <button class="dkv-chip-btn" id="btn-stamp-ticket">VALIDASI TIKET KITA [01]</button>
+                  <span style="font-family:var(--font-mono);font-size:8px;color:#6E5A49;" id="stamp-status">YOUR OWN PACE</span>
+                  <button class="dkv-chip-btn" id="btn-stamp-ticket">STAMP TICKET →</button>
                 </div>
               </div>
             </div>
@@ -1044,9 +238,15 @@
         <!-- ARTBOARD 02 -->
         <section class="artboard-station" data-z="-3000" id="ab-2">
           <div class="artboard-canvas">
+            <div class="ai-layer" data-depth="55" data-py="0.15" data-layer-name="img-ab-2b" style="--layer-color: var(--ai-green);">
+              <div class="secondary-stamp">
+                <img id="img-ab-2b" alt="A figure beneath towering clouds, followed by the open sky" />
+                <span class="stamp-tag">STILL SO MUCH TO ASK</span>
+              </div>
+            </div>
             <div class="ai-layer layer-backing" data-depth="-90" data-layer-name="L01_Island_Baseplate" style="--layer-color: var(--ai-blue);">
               <div class="cmyk-bar">
-                <span>PLATE 02 // THE OCEAN CONVERSATION (19/07/26)</span>
+                <span>PLATE 02 // ABOUT THE OCEAN</span>
                 <span>Z: -3000mm</span>
               </div>
             </div>
@@ -1059,31 +259,27 @@
 
             <div class="ai-layer" data-depth="0" data-py="-0.15" data-layer-name="L03_Hero_Island_House" style="--layer-color: var(--ai-magenta);">
               <div class="hero-cutout-plate rect-plate">
-                <img id="img-ab-2" alt="Island House" />
+                <img id="img-ab-2" alt="A lone house and tree surrounded by water" />
               </div>
             </div>
 
             <div class="ai-layer" data-depth="55" data-split="24" data-layer-name="L04_WA_Memory_Log_02" style="--layer-color: var(--ai-green);">
               <div class="chat-memory-chip">
-                <span>19/07/26 • 09:46 -> 10:01 WIB</span>
-                "tapi raf, kalo kamu liat laut, apa yang kamu pikirin?"
+                <span>19 JULY 2026</span>
+                “Don’t worry, I still have plenty.”
               </div>
             </div>
 
             <div class="ai-layer" data-depth="120" data-py="0.28" data-layer-name="L05_Editorial_Copy_02" style="--layer-color: var(--ai-orange);">
               <div class="editorial-sheet">
                 <div class="sheet-header">
-                  <span>ARTBOARD 02 // RUMAH DI TENGAH LAUT</span>
-                  <span>LAMBAR — TANGERANG</span>
+                  <span>ARTBOARD 02 // ABOUT THE OCEAN</span>
+                  <span>YOUR QUESTIONS</span>
                 </div>
-                <h2 class="sheet-title">Kamu Penasaran Sekaligus Takut pada Laut, Jadi Biar Aku yang Menemanimu.</h2>
+                <h2 class="sheet-title">I liked your questions.</h2>
                 <p class="sheet-copy">
-                  Waktu kamu bilang kadang aku terasa <em>"udah sampai di awan sedangkan kamu masih di tanah"</em> atau <em>"terlalu luas untuk dipahami"</em>, ingat janjiku: aku nggak akan pernah biarin kamu sendirian di hutan belantara atau di laut yang dalam itu.
+                  The ocean made you curious and afraid. You wanted to know what was down there, beyond what we could see. I was ready to turn the answer into a very long conversation. Then you said you had plenty more questions. I liked knowing there would be another one. I still do.
                 </p>
-                <div class="wa-quote-box">
-                  <strong>19/07/26 • 13:03 — ARTI TERIMA KASIH:</strong>
-                  "I receive your kindness with love, and I love it."
-                </div>
               </div>
             </div>
           </div>
@@ -1094,44 +290,39 @@
           <div class="artboard-canvas">
             <div class="ai-layer layer-backing" data-depth="-90" data-layer-name="L01_Meadow_Baseplate" style="--layer-color: var(--ai-blue);">
               <div class="cmyk-bar">
-                <span>PLATE 03 // CALCIFER × FUN CHICKEN MATAH</span>
+                <span>PLATE 03 // UNDERSTANDING US</span>
                 <span>Z: -4500mm</span>
               </div>
             </div>
 
             <div class="ai-layer" data-depth="-10" data-py="-0.2" data-layer-name="L02_Calcifer_Primary_Plate" style="--layer-color: var(--ai-orange);">
               <div class="hero-cutout-plate">
-                <img id="img-ab-3a" alt="Howl & Calcifer" />
+                <img id="img-ab-3a" alt="Sophie holding Calcifer in her hands" />
               </div>
             </div>
 
-            <div class="ai-layer" data-depth="55" data-py="0.35" data-layer-name="L03_Meadow_Step_Inset" style="--layer-color: var(--ai-green);">
-              <div class="secondary-stamp">
-                <img id="img-ab-3b" alt="Stepping in Meadow" />
-                <span class="stamp-tag">SOFT BLUE & NAVY</span>
-              </div>
-            </div>
+
 
             <div class="ai-layer" data-depth="85" data-split="32" data-layer-name="L04_WA_Memory_Log_03" style="--layer-color: var(--ai-gold);">
               <div class="chat-memory-chip">
-                <span>19/07/26 & 22/07/26 • INSIDE JOKE</span>
-                "kalo untuk kamu itu berlaku: rare = aneh" // kontak: "rafly nakal" 🦔
+                <span>HOWL’S MOVING CASTLE · SOPHIE</span>
+                “A heart’s a heavy burden.”
               </div>
             </div>
 
             <div class="ai-layer" data-depth="125" data-py="0.25" data-layer-name="L05_Editorial_Copy_03" style="--layer-color: var(--ai-magenta);">
               <div class="editorial-sheet">
                 <div class="sheet-header">
-                  <span>ARTBOARD 03 // SENYUM MATA & HAL MANIS</span>
+                  <span>ARTBOARD 03 // UNDERSTANDING US</span>
                   <span>CALCIFER SPARK</span>
                 </div>
-                <h2 class="sheet-title">Untuk Cewek yang Kalau Senyum, Matanya Ikut Senyum.</h2>
+                <h2 class="sheet-title">Making sense of us.</h2>
                 <p class="sheet-copy">
-                  Kamu yang tiap hari wajib makan sesuatu yang manis, yang nangis kepedesan gara-gara kwetiaw, yang marah kalau Nana-nya di-<em>ban</em> di ML, sampai nganterin <em>Fun Chicken sambal matah</em> ke kosku pas mati listrik. Warna <em>soft blue</em> kamu memang paling pas nemenin hidupku yang monokrom.
+                  You once said I was too vast to understand. Naturally, I tried explaining life with vectors. You got more confused. But somewhere in that conversation, I said something I still mean: understanding us. I want us to be able to speak while we are still figuring things out, before either of us has found the right words.
                 </p>
                 <div class="sheet-action-row">
-                  <span style="font-family:var(--font-mono);font-size:8px;color:#6E5A49;" id="spark-counter">SPARK: 100% EXCITED</span>
-                  <button class="dkv-chip-btn" id="btn-spark-calcifer">NYALAKAN API CALCIFER ✦</button>
+                  <span style="font-family:var(--font-mono);font-size:8px;color:#6E5A49;" id="spark-counter">FIGURING IT OUT</span>
+                  <button class="dkv-chip-btn" id="btn-spark-calcifer">A SPARK FOR CALCIFER ✦</button>
                 </div>
               </div>
             </div>
@@ -1143,45 +334,41 @@
           <div class="artboard-canvas">
             <div class="ai-layer layer-backing" data-depth="-90" data-layer-name="L01_Azalea_Baseplate" style="--layer-color: var(--ai-blue);">
               <div class="cmyk-bar">
-                <span>PLATE 04 // ARCHIVE 09/09/26 • 22:32 WIB</span>
+                <span>PLATE 04 // AS WE CHANGE</span>
                 <span>Z: -6000mm</span>
               </div>
             </div>
 
             <div class="ai-layer" data-depth="-5" data-py="-0.2" data-layer-name="L02_Azalea_Blossom_Plate" style="--layer-color: var(--ai-magenta);">
               <div class="hero-cutout-plate rect-plate">
-                <img id="img-ab-4a" alt="Chihiro in Azaleas" />
+                <img id="img-ab-4a" alt="Chihiro moving through a path surrounded by flowers" />
               </div>
             </div>
 
             <div class="ai-layer" data-depth="60" data-py="0.38" data-layer-name="L03_Haku_CloseUp_Stamp" style="--layer-color: var(--ai-cyan);">
               <div class="secondary-stamp" style="left:12px;right:auto;">
-                <img id="img-ab-4b" alt="Chihiro and Haku" />
-                <span class="stamp-tag">PACE 9 TETAP SAMPAI</span>
+                <img id="img-ab-4b" alt="Chihiro holding Haku in his dragon form" />
+                <span class="stamp-tag">YOUR OWN PACE</span>
               </div>
             </div>
 
             <div class="ai-layer" data-depth="90" data-split="36" data-layer-name="L04_WA_Memory_Log_04" style="--layer-color: var(--ai-orange);">
               <div class="chat-memory-chip">
-                <span>14/08/26 • 00:49 WIB — JEAN'S REMINDER</span>
-                "pace 9 pun kamu tetap akan sampai raaff... kamu bukan gagal, waktunya aja"
+                <span>30 JULY 2026</span>
+                “Stay curious about me, Jean.”
               </div>
             </div>
 
             <div class="ai-layer" data-depth="125" data-py="0.24" data-layer-name="L05_Editorial_Copy_04" style="--layer-color: var(--ai-green);">
               <div class="editorial-sheet">
                 <div class="sheet-header">
-                  <span>ARTBOARD 04 // MENURUNKAN TEMBOK</span>
+                  <span>ARTBOARD 04 // AS WE CHANGE</span>
                   <span>CHIHIRO & HAKU</span>
                 </div>
-                <h2 class="sheet-title">Terima Kasih Sudah Berani Percaya & Memilih Lagi.</h2>
+                <h2 class="sheet-title">Stay curious about me.</h2>
                 <p class="sheet-copy">
-                  Di dunia Ghibli, tidak ada yang benar-benar jahat—semuanya hanya butuh dipahami. Dan pesan yang kamu kirim malam itu adalah salah satu hal paling tulus yang pernah kubaca seumur hidupku:
+                  I said that to you once. We were talking about how people change. There are things you will learn about yourself years from now that neither of us could name today. I want to hear about them from you. Even after years together, I hope we still ask questions whose answers we think we know.
                 </p>
-                <div class="wa-quote-box">
-                  <strong>JEAN ERLIKA — 09/09/26, 22:32 WIB:</strong>
-                  "Perlahan-lahan kamu bikin aku berani nurunin tembok yang selama ini aku bangun... dari sekian banyak orang, kamu yang berhasil bikin aku ingin memilih lagi."
-                </div>
               </div>
             </div>
           </div>
@@ -1192,7 +379,7 @@
           <div class="artboard-canvas">
             <div class="ai-layer layer-backing" data-depth="-90" data-layer-name="L01_NightSky_Baseplate" style="--layer-color: var(--ai-blue);">
               <div class="cmyk-bar">
-                <span>PLATE 05 // VEKTOR 3D (X, Y, Z) & WAKTU</span>
+                <span>PLATE 05 // YEARS FROM NOW</span>
                 <span>FINAL CHAPTER</span>
               </div>
             </div>
@@ -1216,30 +403,31 @@
 
             <div class="ai-layer" data-depth="90" data-layer-name="L04_WA_Memory_Log_05" style="--layer-color: var(--ai-green);">
               <div class="chat-memory-chip">
-                <span>13/08/26 • 09:32 WIB — PERTANYAANMU</span>
-                "emangnyaa boleh sayang sayangaan raafllyy?"
+                <span>30 JULY 2026</span>
+                “I wonder how our story will end.”
               </div>
             </div>
 
             <div class="ai-layer" data-depth="125" data-py="0.22" data-layer-name="L05_Confession_Letter_Sheet" style="--layer-color: var(--ai-magenta);">
               <div class="editorial-sheet">
                 <div class="sheet-header">
-                  <span>CHAPTER 01 // JAWABAN RESMI</span>
-                  <span>RAFLY → <span class="her-name-slot">JEAN ERLIKA</span></span>
+                  <span>ARTBOARD 05 // YEARS FROM NOW</span>
+                  <span>RAFLY → <span >JEAN ERLIKA</span></span>
                 </div>
-                <h2 class="sheet-title">Biar Boleh Sayang-Sayangan Secara Resmi: Mau Jadi Pacarku, <span class="her-name-slot">Jean</span>?</h2>
+                <h2 class="sheet-title">Still beside you.</h2>
                 <p class="sheet-copy" id="letter-body-display">
-                  Waktu tanggal 30 Juli kamu bilang penasaran <em>"ending dari cerita kita ini bakal gimana"</em>—aku nggak mau ini jadi akhir, tapi awal yang resmi. Kamu udah bikin cowok mental 34 tahun ini bisa jadi bocil lagi tanpa peduli image. Mulai hari ini, maukah kamu resmi jadi pacarku dan <em>teammate</em>-ku, bersama <strong id="sender-name-display">Rafly</strong>?
+                  You once wondered how our story would end. I want to build a life with you, Jean. To grow old enough together that these conversations belong to our younger selves. Watching Chihiro and Haku cross that night sky, I think about how much there is ahead of us. I want to be there for it. If you ask me again years from now, I hope to answer from beside you.<br><br><strong >Rafly</strong>
                 </p>
 
                 <div class="official-pass-banner" id="official-pass">
-                  ✦ RESMI JADIAN: RAFLY & JEAN ERLIKA // TEAMMATE VEKTOR (X, Y, Z, T) // <span id="official-date-slot">HARI INI</span> ✦
+                  <img id="img-keepsake" class="keepsake-memory" alt="A glimpse back at Chihiro among the flowers" />
+                  RAFLY & JEAN // <span id="official-date-slot">TODAY</span> ✦
                 </div>
 
                 <div class="sheet-action-row">
-                  <button class="dkv-chip-btn gold-cta" id="btn-accept-confession">IYA, KITA RESMI SEKARANG ✦</button>
-                  <button class="dkv-chip-btn" id="btn-download-ticket" style="display:none;background:#2ECC71;border-color:#2ECC71;color:#080B11;font-weight:600;">UNDUH TIKET RESMI ↓</button>
-                  <button class="dkv-chip-btn" id="btn-send-wa" style="background:#1E2636;color:#F4D799;">BALAS KE WA RAFLY →</button>
+                  <button class="dkv-chip-btn gold-cta" id="btn-accept-confession">OPEN A KEEPSAKE</button>
+                  <button class="dkv-chip-btn" id="btn-download-ticket" style="display:none;background:#2ECC71;border-color:#2ECC71;color:#080B11;font-weight:600;">SAVE TICKET ↓</button>
+                  <button class="dkv-chip-btn" id="btn-send-wa" style="background:#1E2636;color:#F4D799;">OPEN WHATSAPP →</button>
                 </div>
               </div>
             </div>
@@ -1263,663 +451,7 @@
     </div>
   </footer>
 
-  <div class="studio-modal" id="studio-modal">
-    <div class="studio-card">
-      <h3>CONFESSION STUDIO & ASSET LOADER</h3>
-      <p>Seluruh cerita dari chat WhatsApp kamu dan <strong>Jean Erlika</strong> sudah ditanamkan ke dalam ke-6 Artboard. Kamu juga bisa memuat file gambar/GIF + MP3 lokalmu di bawah ini.</p>
+  <script type="module" src="./scripts/main.js"></script>
 
-      <div class="studio-field">
-        <label>Muat 7 Gambar/GIF + 1 MP3 Sekaligus</label>
-        <label class="file-drop-btn">
-          + PILIH FILE GAMBAR & MP3 DARI PERANGKAT
-          <input type="file" id="multi-asset-input" multiple accept="image/*,audio/*" />
-        </label>
-      </div>
-
-      <div class="studio-field">
-        <label>Nama Panggilan Dia</label>
-        <input type="text" id="input-her-name" value="Jean Erlika" />
-      </div>
-
-      <div class="studio-field">
-        <label>Nama Kamu</label>
-        <input type="text" id="input-sender-name" value="Rafly" />
-      </div>
-
-      <div class="studio-field">
-        <label>Kalimat Nembak di Artboard Terakhir</label>
-        <textarea id="input-letter-body" rows="3">Waktu tanggal 30 Juli kamu bilang penasaran "ending dari cerita kita ini bakal gimana"—aku nggak mau ini jadi akhir, tapi awal yang resmi. Kamu udah bikin cowok mental 34 tahun ini bisa jadi bocil lagi tanpa peduli image. Mulai hari ini, maukah kamu resmi jadi pacarku dan teammate-ku?</textarea>
-      </div>
-
-      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;">
-        <button class="hud-btn" id="btn-close-studio">SIMPAN & TUTUP</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const USER_FILES = {
-      audio: "A Town With An Ocean View (Umi no Mieru Machi) - Kiki's Delivery Service Ost「03」.mp3",
-      ab1: "Studio Ghibli GIF by TIFF (1).jpg",
-      ab2: "Studio Ghibli GIF by TIFF.jpg",
-      ab3a: "hayao miyazaki kiss GIF.jpg",
-      ab3b: "hayao miyazaki ghibli GIF.jpg",
-      ab4a: "spirited away manga GIF (2).jpg",
-      ab4b: "spirited away manga GIF (1).jpg",
-      ab5: "spirited away m GIF.jpg"
-    };
-
-    function createFallbackSVG(type) {
-      const svgs = {
-        ab1: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
-          <defs>
-            <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#284B7E"/><stop offset="48%" stop-color="#E59866"/><stop offset="75%" stop-color="#F6C88F"/><stop offset="100%" stop-color="#4A3F6B"/>
-            </linearGradient>
-          </defs>
-          <rect width="800" height="500" fill="url(#g1)"/>
-          <ellipse cx="420" cy="210" rx="340" ry="95" fill="#FBE3B5" opacity="0.85"/>
-          <ellipse cx="320" cy="240" rx="280" ry="65" fill="#B67868" opacity="0.65"/>
-          <rect y="360" width="800" height="140" fill="#5D4E77" opacity="0.8"/>
-          <line x1="120" y1="358" x2="680" y2="358" stroke="#FFF2D6" stroke-width="3"/>
-          <rect x="490" y="330" width="32" height="28" fill="#2A2035" stroke="#FFE3B3" stroke-width="1.5"/>
-        </svg>`,
-        ab2: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
-          <rect width="800" height="350" fill="#1785B8"/>
-          <circle cx="430" cy="180" r="145" fill="#FFF7E8"/>
-          <circle cx="310" cy="220" r="105" fill="#FFF7E8"/>
-          <rect y="340" width="800" height="160" fill="#5D7E9B"/>
-          <ellipse cx="350" cy="348" rx="260" ry="22" fill="#89C93E"/>
-          <polygon points="150,342 150,285 185,255 250,255 280,285 280,342" fill="#F4EDE2"/>
-          <polygon points="145,285 185,250 255,250 285,285" fill="#D86C27"/>
-          <circle cx="465" cy="240" r="35" fill="#6BA82E"/>
-          <path d="M450 342 L462 265" stroke="#4A3525" stroke-width="8"/>
-        </svg>`,
-        ab3a: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
-          <rect width="800" height="500" fill="#4A89B8"/>
-          <path d="M0 320 Q250 240 520 310 T800 280 L800 500 L0 500 Z" fill="#6CA948"/>
-          <circle cx="480" cy="195" r="55" fill="#FF5E3A" opacity="0.9"/>
-          <circle cx="480" cy="205" r="32" fill="#FFD452"/>
-          <circle cx="468" cy="205" r="5" fill="#141820"/><circle cx="492" cy="205" r="5" fill="#141820"/>
-        </svg>`,
-        ab3b: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500">
-          <rect width="600" height="500" fill="#2AA4DF"/>
-          <path d="M0 320 Q160 260 600 300 L600 500 L0 500 Z" fill="#5EA83B"/>
-          <ellipse cx="260" cy="420" rx="120" ry="70" fill="#3B8BB8"/>
-          <circle cx="120" cy="340" r="14" fill="#F59BB0"/><circle cx="460" cy="360" r="12" fill="#FFF3B0"/>
-        </svg>`,
-        ab4a: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
-          <rect width="800" height="500" fill="#35582C"/>
-          <circle cx="160" cy="160" r="95" fill="#F48FB1"/><circle cx="640" cy="180" r="110" fill="#F8BBD0"/>
-          <circle cx="240" cy="360" r="105" fill="#EC407A"/><circle cx="560" cy="350" r="95" fill="#FCE4EC"/>
-          <circle cx="400" cy="250" r="75" fill="#F48FB1"/>
-        </svg>`,
-        ab4b: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500">
-          <rect width="600" height="500" fill="#193A48"/>
-          <path d="M60 120 Q240 180 340 320" stroke="#F4EFE6" stroke-width="70" stroke-linecap="round" fill="none"/>
-          <circle cx="400" cy="250" r="65" fill="#F5CBA7"/>
-        </svg>`,
-        ab5: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
-          <rect width="800" height="500" fill="#13577A"/>
-          <circle cx="520" cy="95" r="38" fill="#FFF8B8"/>
-          <path d="M180 215 Q420 235 780 265" stroke="#F4EFE6" stroke-width="28" stroke-linecap="round" fill="none"/>
-          <path d="M0 370 Q200 330 420 365 T800 355 L800 500 L0 500 Z" fill="#6F7E85"/>
-        </svg>`
-      };
-      return "data:image/svg+xml;utf8," + encodeURIComponent(svgs[type] || svgs.ab1);
-    }
-
-    function bindImageWithFallback(id, fileKey) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const rawName = USER_FILES[fileKey];
-      const encoded = encodeURIComponent(rawName);
-      el.src = rawName;
-      el.onerror = () => {
-        if (el.dataset.triedEncoded !== "1") {
-          el.dataset.triedEncoded = "1";
-          el.src = encoded;
-        } else {
-          el.onerror = null;
-          el.src = createFallbackSVG(fileKey);
-        }
-      };
-    }
-
-    bindImageWithFallback("img-ab-1", "ab1");
-    bindImageWithFallback("img-ab-2", "ab2");
-    bindImageWithFallback("img-ab-3a", "ab3a");
-    bindImageWithFallback("img-ab-3b", "ab3b");
-    bindImageWithFallback("img-ab-4a", "ab4a");
-    bindImageWithFallback("img-ab-4b", "ab4b");
-    bindImageWithFallback("img-ab-5", "ab5");
-
-    const bgAudio = new Audio();
-    bgAudio.loop = true;
-    bgAudio.volume = 0.78;
-    bgAudio.src = USER_FILES.audio;
-
-    let audioCtx = null;
-    let musicPlaying = false;
-    let melodyTimer = null;
-
-    const KIKI_NOTES = [
-      [392.00, 196.00, 380], [440.00, 220.00, 380], [493.88, 246.94, 520],
-      [587.33, 293.66, 520], [493.88, 246.94, 520], [523.25, 261.63, 680],
-      [587.33, 293.66, 380], [659.25, 329.63, 740], [587.33, 293.66, 460],
-      [523.25, 261.63, 520], [493.88, 246.94, 780], [440.00, 220.00, 620]
-    ];
-    let noteIdx = 0;
-
-    function ensureAudioCtx() {
-      if (!audioCtx) {
-        const AC = window.AudioContext || window.webkitAudioContext;
-        if (AC) audioCtx = new AC();
-      }
-      if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
-    }
-
-    function playChimeNote(freq, bass, durMs) {
-      ensureAudioCtx();
-      if (!audioCtx) return;
-      const now = audioCtx.currentTime;
-
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = "triangle";
-      osc.frequency.setValueAtTime(freq, now);
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.exponentialRampToValueAtTime(0.065, now + 0.03);
-      gain.gain.exponentialRampToValueAtTime(0.0008, now + durMs / 1000 + 0.45);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start(now);
-      osc.stop(now + durMs / 1000 + 0.5);
-
-      if (bass) {
-        const bOsc = audioCtx.createOscillator();
-        const bGain = audioCtx.createGain();
-        bOsc.type = "sine";
-        bOsc.frequency.setValueAtTime(bass, now);
-        bGain.gain.setValueAtTime(0.001, now);
-        bGain.gain.exponentialRampToValueAtTime(0.035, now + 0.04);
-        bGain.gain.exponentialRampToValueAtTime(0.0008, now + durMs / 1000 + 0.55);
-        bOsc.connect(bGain);
-        bGain.connect(audioCtx.destination);
-        bOsc.start(now);
-        bOsc.stop(now + durMs / 1000 + 0.6);
-      }
-    }
-
-    function startSynthLoop() {
-      if (melodyTimer) return;
-      const step = () => {
-        if (!musicPlaying) return;
-        const [f, b, d] = KIKI_NOTES[noteIdx % KIKI_NOTES.length];
-        noteIdx++;
-        playChimeNote(f, b, d);
-        melodyTimer = setTimeout(step, d);
-      };
-      step();
-    }
-
-    function toggleMusic(forceOn) {
-      const btn = document.getElementById("btn-audio");
-      const label = document.getElementById("audio-label");
-      const eq = document.getElementById("eq-bars");
-      const next = typeof forceOn === "boolean" ? forceOn : !musicPlaying;
-
-      if (next) {
-        musicPlaying = true;
-        btn.classList.add("active");
-        eq.classList.add("playing");
-        label.textContent = "OST:ON";
-        bgAudio.play().catch(() => {
-          startSynthLoop();
-        });
-      } else {
-        musicPlaying = false;
-        btn.classList.remove("active");
-        eq.classList.remove("playing");
-        label.textContent = "OST:OFF";
-        bgAudio.pause();
-        if (melodyTimer) {
-          clearTimeout(melodyTimer);
-          melodyTimer = null;
-        }
-      }
-    }
-
-    document.getElementById("btn-audio").addEventListener("click", () => toggleMusic());
-    document.getElementById("island-toggle").addEventListener("click", () => toggleMusic());
-
-    const MAX_Z = 7500;
-    let targetZ = 0;
-    let currentZ = 0;
-    let targetPointerX = 0;
-    let targetPointerY = 0;
-    let smoothPointerX = 0;
-    let smoothPointerY = 0;
-    let isExploded = false;
-
-    const stations = Array.from(document.querySelectorAll(".artboard-station"));
-    const pips = Array.from(document.querySelectorAll(".ab-pip"));
-    const doorLeft = document.getElementById("door-left");
-    const doorRight = document.getElementById("door-right");
-    const howlDial = document.getElementById("howl-dial-svg");
-    const zReadout = document.getElementById("z-coord-readout");
-    const abLabel = document.getElementById("hud-artboard-label");
-    const hudSwatch = document.getElementById("hud-swatch");
-
-    const ARTBOARD_META = [
-      { title: "AB_00 // PUTRI_GHIBLI.AI", color: "#FF7A45", skyTop: [12, 17, 29], skyBot: [48, 34, 44] },
-      { title: "AB_01 // JAKSEL_LAMPUNG.AI", color: "#F5B841", skyTop: [40, 75, 126], skyBot: [229, 152, 102] },
-      { title: "AB_02 // OCEAN_MYSTERY.AI", color: "#25CCF7", skyTop: [23, 133, 184], skyBot: [152, 212, 226] },
-      { title: "AB_03 // RARE_AND_SWEET.AI", color: "#2ECC71", skyTop: [42, 148, 212], skyBot: [124, 188, 96] },
-      { title: "AB_04 // SEPT_09_2232.AI", color: "#FF5C8D", skyTop: [58, 42, 72], skyBot: [218, 118, 148] },
-      { title: "AB_05 // TEAMMATE_RESMI.AI", color: "#4F8EF7", skyTop: [14, 52, 82], skyBot: [24, 88, 118] }
-    ];
-
-    const btnExplode = document.getElementById("btn-explode");
-    btnExplode.addEventListener("click", () => {
-      isExploded = !isExploded;
-      document.body.classList.toggle("exploded-mode", isExploded);
-      btnExplode.classList.toggle("active", isExploded);
-      document.getElementById("layer-mode-readout").textContent = isExploded
-        ? "MODE: EXPLODED_ISO [8 LAYERS]"
-        : "MODE: COMPOSITE";
-      playChimeNote(isExploded ? 587.33 : 440, 220, 220);
-    });
-
-    window.addEventListener("pointermove", (e) => {
-      targetPointerX = (e.clientX / window.innerWidth - 0.5) * 2;
-      targetPointerY = (e.clientY / window.innerHeight - 0.5) * 2;
-    }, { passive: true });
-
-    window.addEventListener("deviceorientation", (e) => {
-      if (e.gamma !== null && e.beta !== null) {
-        targetPointerX = Math.max(-1, Math.min(1, e.gamma / 25));
-        targetPointerY = Math.max(-1, Math.min(1, (e.beta - 45) / 25));
-      }
-    }, { passive: true });
-
-    function scrollToArtboard(index) {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const targetScroll = (index / 5) * maxScroll;
-      window.scrollTo({ top: targetScroll, behavior: "smooth" });
-    }
-
-    pips.forEach((pip) => {
-      pip.addEventListener("click", () => {
-        const idx = parseInt(pip.dataset.ab, 10);
-        scrollToArtboard(idx);
-      });
-    });
-
-    document.getElementById("btn-enter-diorama").addEventListener("click", () => {
-      if (!musicPlaying) toggleMusic(true);
-      scrollToArtboard(1);
-    });
-
-    document.getElementById("astrolabe-trigger").addEventListener("click", () => {
-      if (!musicPlaying) toggleMusic(true);
-      scrollToArtboard(1);
-    });
-
-    const pCanvas = document.getElementById("particle-canvas");
-    const pCtx = pCanvas.getContext("2d");
-    const aCanvas = document.getElementById("atmo-canvas");
-    const aCtx = aCanvas.getContext("2d");
-    let cw = window.innerWidth;
-    let ch = window.innerHeight;
-
-    const ambientStars = Array.from({ length: 42 }, () => ({
-      x: Math.random(),
-      y: Math.random() * 0.65,
-      r: 0.8 + Math.random() * 1.8,
-      phase: Math.random() * Math.PI * 2
-    }));
-
-    function resizeCanvases() {
-      cw = window.innerWidth;
-      ch = window.innerHeight;
-      pCanvas.width = cw;
-      pCanvas.height = ch;
-      aCanvas.width = cw;
-      aCanvas.height = ch;
-    }
-    window.addEventListener("resize", resizeCanvases);
-    resizeCanvases();
-
-    const particles = [];
-    function spawnBurst(x, y, color = "#F4D799", count = 22) {
-      for (let i = 0; i < count; i++) {
-        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.4;
-        const speed = 1.6 + Math.random() * 4.8;
-        particles.push({
-          x, y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - 0.9,
-          r: 2 + Math.random() * 3.4,
-          alpha: 1,
-          color
-        });
-      }
-    }
-
-    function downloadOfficialTicket() {
-      const c = document.createElement("canvas");
-      c.width = 1080;
-      c.height = 640;
-      const ctx = c.getContext("2d");
-
-      const g = ctx.createLinearGradient(0, 0, 1080, 640);
-      g.addColorStop(0, "#0E1726");
-      g.addColorStop(1, "#1C2B42");
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, 1080, 640);
-
-      ctx.strokeStyle = "#D8B26E";
-      ctx.lineWidth = 3;
-      ctx.strokeRect(28, 28, 1024, 584);
-      ctx.lineWidth = 1;
-      ctx.strokeRect(40, 40, 1000, 560);
-
-      ctx.fillStyle = "#F4D799";
-      ctx.font = "500 20px 'JetBrains Mono', monospace";
-      ctx.fillText("SPIRIT REALM RAILWAY // SIXTH STATION OFFICIAL PASS", 70, 92);
-
-      ctx.fillStyle = "#F5F0E6";
-      ctx.font = "bold 46px 'Cinzel Decorative', serif";
-      ctx.fillText("RAFLY  ×  JEAN ERLIKA", 70, 175);
-
-      ctx.fillStyle = "#D8B26E";
-      ctx.font = "italic 30px 'Cormorant Garamond', serif";
-      ctx.fillText("Resmi Berpasangan & Teammate Vektor 3D (X, Y, Z, Waktu)", 70, 225);
-
-      ctx.beginPath();
-      ctx.setLineDash([8, 6]);
-      ctx.moveTo(70, 260);
-      ctx.lineTo(1010, 260);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      ctx.fillStyle = "#F5F0E6";
-      ctx.font = "22px 'JetBrains Mono', monospace";
-      const dateStr = new Date().toLocaleDateString("id-ID", {
-        day: "2-digit", month: "long", year: "numeric"
-      });
-      ctx.fillText(`TANGGAL RESMI   : ${dateStr.toUpperCase()}`, 70, 320);
-      ctx.fillText(`RUTE PERJALANAN : JAKSEL — KOST AL HUSNA — WAY HALIM`, 70, 365);
-      ctx.fillText(`KODE RAHASIA    : RARE = ANEH // PACE 9 TETAP SAMPAI`, 70, 410);
-      ctx.fillText(`STATUS TIKET    : VALID SELAMANYA (ONE-WAY TOGETHER)`, 70, 455);
-
-      ctx.strokeStyle = "#FF7A45";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(890, 420, 78, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.fillStyle = "#FF7A45";
-      ctx.font = "bold 20px 'JetBrains Mono', monospace";
-      ctx.fillText("APPROVED", 840, 415);
-      ctx.fillText("PUTRI GHIBLI", 818, 442);
-
-      ctx.fillStyle = "rgba(245, 240, 230, 0.75)";
-      ctx.font = "italic 24px 'Cormorant Garamond', serif";
-      ctx.fillText('"I receive your kindness with love, and I love it."', 70, 550);
-
-      const link = document.createElement("a");
-      link.download = "TIKET_RESMI_RAFLY_JEAN_ERLIKA.png";
-      link.href = c.toDataURL("image/png");
-      link.click();
-    }
-
-    let stampCount = 0;
-    document.getElementById("btn-stamp-ticket").addEventListener("click", (e) => {
-      stampCount++;
-      const btn = e.currentTarget;
-      btn.classList.add("active");
-      btn.textContent = `TIKET TERVALIDASI [0${stampCount}] ✓`;
-      document.getElementById("stamp-status").textContent = "RUTE: KOST AL HUSNA — WAY HALIM";
-      playChimeNote(659.25, 329.63, 300);
-      const rect = btn.getBoundingClientRect();
-      spawnBurst(rect.left + rect.width / 2, rect.top, "#F5B841", 22);
-      anime({
-        targets: "#img-ab-1",
-        scale: [1.14, 1.06],
-        duration: 650,
-        easing: "cubicBezier(0.16, 1, 0.3, 1)"
-      });
-    });
-
-    let sparkCount = 0;
-    document.getElementById("btn-spark-calcifer").addEventListener("click", (e) => {
-      sparkCount++;
-      const btn = e.currentTarget;
-      btn.classList.add("active");
-      document.getElementById("spark-counter").textContent = `RARE & SWEET: +${sparkCount * 100}% HANGAT`;
-      playChimeNote(587.33, 293.66, 260);
-      const rect = btn.getBoundingClientRect();
-      spawnBurst(rect.left + rect.width / 2, rect.top - 80, "#FF7A45", 26);
-      anime({
-        targets: ["#img-ab-3a", "#img-ab-3b"],
-        scale: [1.15, 1.06],
-        duration: 700,
-        easing: "cubicBezier(0.16, 1, 0.3, 1)"
-      });
-    });
-
-    document.getElementById("btn-accept-confession").addEventListener("click", (e) => {
-      const btn = e.currentTarget;
-      btn.classList.add("active");
-      btn.textContent = "RESMI JADIAN ✦";
-
-      const passBanner = document.getElementById("official-pass");
-      const dlBtn = document.getElementById("btn-download-ticket");
-      const now = new Date();
-      document.getElementById("official-date-slot").textContent = now.toLocaleDateString("id-ID", {
-        day: "2-digit", month: "short", year: "numeric"
-      }).toUpperCase();
-      passBanner.classList.add("revealed");
-      dlBtn.style.display = "inline-flex";
-
-      if (!musicPlaying) toggleMusic(true);
-
-      playChimeNote(523.25, 261.63, 350);
-      setTimeout(() => playChimeNote(659.25, 329.63, 350), 140);
-      setTimeout(() => playChimeNote(783.99, 392.00, 600), 280);
-
-      for (let i = 0; i < 6; i++) {
-        setTimeout(() => {
-          spawnBurst(
-            cw * (0.2 + Math.random() * 0.6),
-            ch * (0.18 + Math.random() * 0.42),
-            i % 2 === 0 ? "#F4D799" : "#FF7A9E",
-            28
-          );
-        }, i * 150);
-      }
-    });
-
-    document.getElementById("btn-download-ticket").addEventListener("click", downloadOfficialTicket);
-
-    document.getElementById("btn-send-wa").addEventListener("click", () => {
-      const text = encodeURIComponent("Raflyyy, aku udah baca semua diorama Ghibli kita sampai habis. Iya, mulai hari ini kita resmi pacaran dan jadi teammate ya! 🤍✨🦔");
-      window.open(`https://wa.me/?text=${text}`, "_blank");
-    });
-
-    const studioModal = document.getElementById("studio-modal");
-    document.getElementById("btn-studio").addEventListener("click", () => {
-      studioModal.classList.add("open");
-    });
-    document.getElementById("btn-close-studio").addEventListener("click", () => {
-      const herName = document.getElementById("input-her-name").value.trim() || "Jean Erlika";
-      const sender = document.getElementById("input-sender-name").value.trim() || "Rafly";
-      const body = document.getElementById("input-letter-body").value.trim();
-
-      document.querySelectorAll(".her-name-slot").forEach(el => { el.textContent = herName; });
-      document.getElementById("sender-name-display").textContent = sender;
-      if (body) document.getElementById("letter-body-display").textContent = body;
-
-      studioModal.classList.remove("open");
-    });
-
-    document.getElementById("multi-asset-input").addEventListener("change", (e) => {
-      const files = Array.from(e.target.files || []);
-      files.forEach((file) => {
-        const url = URL.createObjectURL(file);
-        const name = file.name.toLowerCase();
-        if (file.type.startsWith("audio/") || name.endsWith(".mp3")) {
-          bgAudio.src = url;
-          toggleMusic(true);
-        } else if (name.includes("tiff (1)")) {
-          document.getElementById("img-ab-1").src = url;
-        } else if (name.includes("tiff")) {
-          document.getElementById("img-ab-2").src = url;
-        } else if (name.includes("kiss")) {
-          document.getElementById("img-ab-3a").src = url;
-        } else if (name.includes("miyazaki ghibli")) {
-          document.getElementById("img-ab-3b").src = url;
-        } else if (name.includes("manga gif (2)") || name.includes("manga gif.jpg")) {
-          document.getElementById("img-ab-4a").src = url;
-        } else if (name.includes("manga gif (1)")) {
-          document.getElementById("img-ab-4b").src = url;
-        } else if (name.includes("spirited away m ")) {
-          document.getElementById("img-ab-5").src = url;
-        }
-      });
-    });
-
-    function lerp(a, b, t) {
-      return a + (b - a) * t;
-    }
-
-    let frameTick = 0;
-    function renderLoop() {
-      frameTick += 0.02;
-      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      const scrollFraction = Math.max(0, Math.min(1, window.scrollY / maxScroll));
-      targetZ = scrollFraction * MAX_Z;
-
-      currentZ = lerp(currentZ, targetZ, 0.11);
-      smoothPointerX = lerp(smoothPointerX, targetPointerX, 0.09);
-      smoothPointerY = lerp(smoothPointerY, targetPointerY, 0.09);
-
-      zReadout.textContent = `Z: ${Math.round(currentZ).toString().padStart(4, "0")}mm`;
-
-      const activeIdx = Math.min(5, Math.max(0, Math.round(currentZ / 1500)));
-      const meta = ARTBOARD_META[activeIdx];
-      abLabel.textContent = meta.title;
-      hudSwatch.style.background = meta.color;
-      hudSwatch.style.boxShadow = `0 0 8px ${meta.color}`;
-
-      pips.forEach((p, idx) => p.classList.toggle("active", idx === activeIdx));
-
-      const doorProgress = Math.max(0, Math.min(1, currentZ / 720));
-      const swingDeg = doorProgress * 114;
-      if (doorLeft && doorRight) {
-        doorLeft.style.transform = `rotateY(${-swingDeg}deg)`;
-        doorRight.style.transform = `rotateY(${swingDeg}deg)`;
-      }
-      if (howlDial) {
-        howlDial.style.transform = `rotate(${currentZ * 0.45}deg) scale(${1 - doorProgress * 0.25})`;
-        howlDial.style.opacity = String(1 - doorProgress * 0.9);
-      }
-
-      const spreadMultiplier = isExploded ? 2.15 : 1.0;
-
-      stations.forEach((station) => {
-        const stationBaseZ = parseFloat(station.dataset.z);
-        const relZ = stationBaseZ + currentZ;
-
-        if (relZ < -2400 || relZ > 1150) {
-          station.style.opacity = "0";
-          station.style.visibility = "hidden";
-          return;
-        }
-
-        station.style.visibility = "visible";
-        let alpha = 1;
-        if (relZ < -1500) {
-          alpha = Math.max(0, 1 - (Math.abs(relZ) - 1500) / 900);
-        } else if (relZ > 320) {
-          alpha = Math.max(0, 1 - (relZ - 320) / 720);
-        }
-        station.style.opacity = alpha.toFixed(3);
-
-        const tiltX = smoothPointerY * -5;
-        const tiltY = smoothPointerX * 7;
-        station.style.transform = `translate3d(0px, 0px, ${relZ.toFixed(1)}px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg)`;
-
-        const layers = station.querySelectorAll(".ai-layer");
-        const normRel = relZ / 1000;
-
-        layers.forEach((layer) => {
-          const baseDepth = parseFloat(layer.dataset.depth || "0") * spreadMultiplier;
-          const pyFactor = parseFloat(layer.dataset.py || "0");
-          const splitFactor = parseFloat(layer.dataset.split || "0");
-
-          const offsetY = normRel * pyFactor * 95 + smoothPointerY * (baseDepth * 0.08);
-          const offsetX = smoothPointerX * (baseDepth * 0.11) + (isExploded ? baseDepth * 0.16 : 0);
-          const scaleBoost = splitFactor > 0 && relZ > 0 ? 1 + (relZ / 1000) * 0.18 : 1;
-
-          layer.style.transform = `translate3d(${offsetX.toFixed(1)}px, ${offsetY.toFixed(1)}px, ${baseDepth.toFixed(1)}px) scale3d(${scaleBoost.toFixed(3)}, ${scaleBoost.toFixed(3)}, 1)`;
-        });
-      });
-
-      const exactIdx = Math.max(0, Math.min(4.999, currentZ / 1500));
-      const idxA = Math.floor(exactIdx);
-      const idxB = Math.min(5, idxA + 1);
-      const t = exactIdx - idxA;
-
-      const topR = Math.round(lerp(ARTBOARD_META[idxA].skyTop[0], ARTBOARD_META[idxB].skyTop[0], t));
-      const topG = Math.round(lerp(ARTBOARD_META[idxA].skyTop[1], ARTBOARD_META[idxB].skyTop[1], t));
-      const topB = Math.round(lerp(ARTBOARD_META[idxA].skyTop[2], ARTBOARD_META[idxB].skyTop[2], t));
-
-      const botR = Math.round(lerp(ARTBOARD_META[idxA].skyBot[0], ARTBOARD_META[idxB].skyBot[0], t));
-      const botG = Math.round(lerp(ARTBOARD_META[idxA].skyBot[1], ARTBOARD_META[idxB].skyBot[1], t));
-      const botB = Math.round(lerp(ARTBOARD_META[idxA].skyBot[2], ARTBOARD_META[idxB].skyBot[2], t));
-
-      const grad = aCtx.createLinearGradient(0, 0, 0, ch);
-      grad.addColorStop(0, `rgb(${topR},${topG},${topB})`);
-      grad.addColorStop(1, `rgb(${botR},${botG},${botB})`);
-      aCtx.fillStyle = grad;
-      aCtx.fillRect(0, 0, cw, ch);
-
-      aCtx.fillStyle = "rgba(255, 248, 225, 0.55)";
-      ambientStars.forEach((st) => {
-        const tw = 0.35 + 0.65 * Math.sin(frameTick * 1.8 + st.phase);
-        aCtx.globalAlpha = tw * 0.7;
-        aCtx.beginPath();
-        aCtx.arc(st.x * cw, st.y * ch, st.r, 0, Math.PI * 2);
-        aCtx.fill();
-      });
-      aCtx.globalAlpha = 1;
-
-      pCtx.clearRect(0, 0, cw, ch);
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy += 0.06;
-        p.alpha -= 0.018;
-        if (p.alpha <= 0) {
-          particles.splice(i, 1);
-          continue;
-        }
-        pCtx.save();
-        pCtx.globalAlpha = p.alpha;
-        pCtx.fillStyle = p.color;
-        pCtx.beginPath();
-        pCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        pCtx.fill();
-        pCtx.restore();
-      }
-
-      requestAnimationFrame(renderLoop);
-    }
-
-    requestAnimationFrame(renderLoop);
-  </script>
 </body>
 </html>
